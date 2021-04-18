@@ -1,27 +1,65 @@
+//inialized the page with default plot
+
+// -------------------------------
+// Get Data
+// -------------------------------
+// Read in `sample.json` with D3 library.
 d3.json("samples.json").then((data) => {
-
-    // 1: Set up for drop down menu
-    // Create and array of each individual's top 10 OTUs 
     
-    // Use map() to build an array of the ids
-    var ids = data.samples.map(row => row.id)
-  
-    var all_values = data.samples.map(row => row.otu_ids)
-    console.log(all_values)
+    // filter for single id. gragh that and then the drop down will introduce the new 
+    var filtered_ids = data.samples.filter(sample => sample.id === "940") 
     
-    // I will need to sort largest to smallest sample_values and slice the first 10 THEN I will need to filter all others were  
-
-    // // Get values for horizontal bar chart x axis  *** I image I will need to filter each individual's sample values for the 10 largest values. The colect each of these. 
-    // var sample_values = samples_data.filter("get sample_values" => "where samle_values are top 10") 
-    // // Get values for horizontal bar chart y axis
-    // var otu_ids = samples_date.filter("get otu_ids => where sample_values are top 10") 
+   
+    // Get values for horizontal bar chart x axis  *** I image I will need to filter each individual's sample values for the 10 largest values. The colect each of these.     
+    var all_values = filtered_ids.map(sample => sample.sample_values)
+    var sample_values = all_values[0].slice(0,10)
+    // Get values for horizontal bar chart y axis
+    // var all_otu_ids = filtered_ids.map(sample => sample.otu_ids) 
     // // Get values for the hovertext 
-    // var otu_labels = samples_date.filter("get otu_labels => where sample_values are top 10")
+    // var otu_labels = filtered_ids.otu_labels.slice(0, 10) 
 
 
 
 
 
+
+    // console.log(filtered_ids)
+    // console.log(sample_values)
+
+    
+    
+    
+    
+
+    // var ids = data.samples.map(row => row.id)
+  
+    
+    
+    
+    
+
+//  ------------------------
+// Event Handler
+// -------------------------
+// // Use D3 to create an event handler
+// d3.selectAll("body").on("change", updatePage);
+
+// function updatePage() {
+//   // Use D3 to select the dropdown menu
+//   var dropdownMenu = d3.selectAll("#selectOption").node();
+//   // Assign the dropdown menu item ID to a variable
+//   var dropdownMenuID = dropdownMenu.id;
+//   // Assign the dropdown menu option to a variable
+//   var selectedOption = dropdownMenu.value;
+
+//   console.log(dropdownMenuID);
+//   console.log(selectedOption);
+  
+
+
+// ------------------
+// BuildPlot
+// ------------------
     // 2: Display the default plot
 //     //  Create the Traces
 //     var trace1 = {
@@ -61,7 +99,7 @@ d3.json("samples.json").then((data) => {
     //   var dropdownMenu = d3.select("#selDataset");
     //   // Assign the value of the dropdown menu option to a variable
     //   var dataset = dropdownMenu.property("value");
-    //   // Initialize an empty array for the country's data
+    //   // Initialize an empty array for the id's data
     //   var data = [];
     
     //   if (dataset == 'us') {
@@ -85,3 +123,12 @@ d3.json("samples.json").then((data) => {
     // init();
     
  })
+
+
+
+
+
+
+// -----------------
+//  Event listener
+// -----------------
