@@ -10,13 +10,16 @@ d3.json("samples.json").then((data) => {
     var filtered_ids = data.samples.filter(sample => sample.id === "940") 
     
    
-    // Get values for horizontal bar chart x axis  *** I image I will need to filter each individual's sample values for the 10 largest values. The colect each of these.     
+    // Get values for horizontal bar chart x axis    
     var all_values = filtered_ids.map(sample => sample.sample_values)
     var sample_values = all_values[0].slice(0,10)
-    // Get values for horizontal bar chart y axis
-    // var all_otu_ids = filtered_ids.map(sample => sample.otu_ids) 
-    // // Get values for the hovertext 
-    // var otu_labels = filtered_ids.otu_labels.slice(0, 10) 
+    // Get 'otu_ids' for first ten to use as lables for the bar chart
+    var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
+    var otu_ids = all_otu_ids[0].slice(0,10) 
+    // Get values for the hovertext 
+    var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
+    var otu_labels = all_otu_labels[0].slice(0,10)
+
 
 
 
@@ -24,7 +27,7 @@ d3.json("samples.json").then((data) => {
 
 
     // console.log(filtered_ids)
-    // console.log(sample_values)
+    console.log(otu_labels)
 
     
     
