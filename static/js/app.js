@@ -66,8 +66,7 @@ d3.json("../../data/samples.json").then((data) => {
 
         dropdown_ids.forEach((id) => {
             var option = selDataset.append("option")
-
-            // appended option tags in #selDataset. Still need to add ids to each option.
+            option.text(id)
         })
 
     }
