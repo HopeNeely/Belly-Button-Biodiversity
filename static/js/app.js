@@ -2,7 +2,7 @@
 // Get Data
 // -------------------------------
 // Read in `sample.json` with D3 library.
-d3.json("../data/samples.json").then((data) => {
+d3.json("../../data/samples.json").then((data) => {
     // filter for single id. gragh that and then the drop down will introduce the new 
     var filtered_ids = data.samples.filter(sample => sample.id === "940")
 
@@ -51,8 +51,9 @@ d3.json("../data/samples.json").then((data) => {
                 b: 100
             }
         }
+
         // Plot the chart to a div tag with id "plot"
-        Plotly.newPlot("plot", chartData, layout)
+        Plotly.newPlot("bar", chartData, layout)
 
 
         //  ------------------------
@@ -61,19 +62,17 @@ d3.json("../data/samples.json").then((data) => {
 
         var selDataset = d3.select("#selDataset")
 
+        var dropdown_ids = data.samples.map(sample => sample.id)
 
+        dropdown_ids.forEach((id) => {
+            var option = selDataset.append("option")
 
-        function dropdownOptions(dropdown_ids) {
-            // Get values for the dropdown box
-            var dropdown_ids = data.samples.map(sample => sample.id)
-            // console.log(dropdown_ids)
-
-            selDataset.append("option")
-
-            
-        }
-        dropdownOptions()
+            // appended option tags in #selDataset. Still need to add ids to each option.
+        })
 
     }
     init()
+
+
+
 })
