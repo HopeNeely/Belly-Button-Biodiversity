@@ -1,41 +1,39 @@
-// -------------------------------
-// Get Data
-// -------------------------------
-// Read in `sample.json` with D3 library.
-d3.json("../../data/samples.json").then((data) => {
-    // filter for single id. gragh that and then the drop down will introduce the new 
-    var filtered_ids = data.samples.filter(sample => sample.id === "940")
 
-    // Get 'sample_values' for horizontal bar chart x axis    
-    var all_values = filtered_ids.map(sample => sample.sample_values)
-    var sample_values = all_values[0].slice(0, 10).reverse()
+function buildPlot() {
+    d3.json("../../data/samples.json").then((data) => {
+        // filter for single id. gragh that and then the drop down will introduce the new 
+        var filtered_ids = data.samples.filter(sample => sample.id === "940")
 
-    // Get 'otu_ids' for first ten to use as lables for the y axis
-    var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
-    var sliced_otu_ids = all_otu_ids[0].slice(0, 10).reverse()
-    var otu_ids = sliced_otu_ids.map(i => 'OTU ' + i)
+        // Get 'sample_values' for horizontal bar chart x axis    
+        var all_values = filtered_ids.map(sample => sample.sample_values)
+        var sample_values = all_values[0].slice(0, 10).reverse()
 
-    // Get 'otu_labels' for the hovertext 
-    var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
-    var otu_labels = all_otu_labels[0].slice(0, 10).reverse()
+        // Get 'otu_ids' for first ten to use as lables for the y axis
+        var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
+        var sliced_otu_ids = all_otu_ids[0].slice(0, 10).reverse()
+        var otu_ids = sliced_otu_ids.map(i => 'OTU ' + i)
 
-    // Append option tags to dropdown in html with text and value
-    var selDataset = d3.select("#selDataset")
+        // Get 'otu_labels' for the hovertext 
+        var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
+        var otu_labels = all_otu_labels[0].slice(0, 10).reverse()
 
-    var dropdown_ids = data.samples.map(sample => sample.id)
+        // Append option tags to dropdown in html with text and value
+        var selDataset = d3.select("#selDataset")
 
-    for (var i = 0; i < dropdown_ids.length; i++) {
-        var option = selDataset.append("option")
-        option.text(dropdown_ids[i])
-        option.property("value", dropdown_ids[i])
-    }
+        var dropdown_ids = data.samples.map(sample => sample.id)
+
+        for (var i = 0; i < dropdown_ids.length; i++) {
+            var option = selDataset.append("option")
+            option.text(dropdown_ids[i])
+            option.property("value", dropdown_ids[i])
+        }
 
 
-    // --------------------------------
-    // buildPlot
-    // --------------------------------
+        // --------------------------------
+        // Initialize Plot
+        // --------------------------------
 
-    function buildPlot() {
+
         var trace1 = {
             type: "bar",
             orientation: "h",
@@ -61,14 +59,54 @@ d3.json("../../data/samples.json").then((data) => {
 
         // Plot the chart to a div tag with id "plot"
         Plotly.newPlot("bar", chartData, layout)
+    })
 
-    }
-    buildPlot()
-})
+
+}
+
+// ---------------------------
+// Event Handler???
+// ---------------------------
+
+// d3.selectAll("body").on("change", optionChanged)
+
+
+function optionChanged() {
+    var dropdownMenu = d3.select("#selDataset").node()
+
+    // var dropdownMenuID = dropdownMenu.id
+    // Assign the dropdown menu option to a variable
+    var selection = dropdownMenu.value;
+
+    
+
+    d3.json("../../data/samples.json").then((data) => {
+        
+        // var filteredIds = []
+
+        var newFilteredIds = data.samples.filter(sample => sample.id === selection)
+        // filteredIds.append(newFilteredIds)
+        console.log(newFilteredIds)
+    })
+
+
+    
+    // console.log(dropdownMenuID)
+
+    // buildPlot(selection)
+
+}
+
+
+
+
+buildPlot()
+
+
 
 
 // function updatePlotly(newData) {
-// //     initial_id = "940"
+//     initial_id = "940"
 //     var Bar = document.getElementById("bar")
 //     Plotly.restyle(Bar, "values", [newData])
 // }
@@ -76,15 +114,5 @@ d3.json("../../data/samples.json").then((data) => {
 
 
 //  ------------------------
-// Event Handler
+// Event Listener???
 // -------------------------
-// d3.selectAll("body").on("change", optionChanged)
-
-function optionChanged() {
-    // d3.event.preventDefault(sample_selection)
-
-    var sample_selection = d3.select("#selDataset").node().value
-
-    console.log(sample_selection)
-
-}
