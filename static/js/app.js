@@ -1,8 +1,25 @@
+function optionChanged() {
+    var selection = d3.select("#selDataset").node().value
+    buildPlot(selection)
+}
 
-function buildPlot() {
+
+function buildPlot(selection) {
     d3.json("../../data/samples.json").then((data) => {
+
+        // Append option tags to dropdown in html with text and value
+        var selDataset = d3.select("#selDataset")
+
+        var dropdown_ids = data.samples.map(sample => sample.id)
+
+        for (var i = 0; i < dropdown_ids.length; i++) {
+            var option = selDataset.append("option")
+            option.text(dropdown_ids[i])
+            option.property("value", dropdown_ids[i])
+        }
+
         // filter for single id. gragh that and then the drop down will introduce the new 
-        var filtered_ids = data.samples.filter(sample => sample.id === "940")
+        var filtered_ids = data.samples.filter(sample => sample.id === selection)
 
         // Get 'sample_values' for horizontal bar chart x axis    
         var all_values = filtered_ids.map(sample => sample.sample_values)
@@ -17,16 +34,7 @@ function buildPlot() {
         var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
         var otu_labels = all_otu_labels[0].slice(0, 10).reverse()
 
-        // Append option tags to dropdown in html with text and value
-        var selDataset = d3.select("#selDataset")
 
-        var dropdown_ids = data.samples.map(sample => sample.id)
-
-        for (var i = 0; i < dropdown_ids.length; i++) {
-            var option = selDataset.append("option")
-            option.text(dropdown_ids[i])
-            option.property("value", dropdown_ids[i])
-        }
 
 
         // --------------------------------
@@ -71,31 +79,7 @@ function buildPlot() {
 // d3.selectAll("body").on("change", optionChanged)
 
 
-function optionChanged() {
-    var dropdownMenu = d3.select("#selDataset").node()
 
-    // var dropdownMenuID = dropdownMenu.id
-    // Assign the dropdown menu option to a variable
-    var selection = dropdownMenu.value;
-
-    
-
-    d3.json("../../data/samples.json").then((data) => {
-        
-        // var filteredIds = []
-
-        var newFilteredIds = data.samples.filter(sample => sample.id === selection)
-        // filteredIds.append(newFilteredIds)
-        console.log(newFilteredIds)
-    })
-
-
-    
-    // console.log(dropdownMenuID)
-
-    // buildPlot(selection)
-
-}
 
 
 
