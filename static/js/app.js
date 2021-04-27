@@ -14,24 +14,32 @@ function buildPlot(selection) {
         // Give 'selection' an initial value. Then allow event handler information to pass through.
         if (!selection) {
             selection = "940"
-        } 
-        else {selction = selection}
+        }
+        else { selction = selection }
 
-        // Filter for single id. Gragh that and then the dropdown will introduce the new 'selection'. 
+        // Filter samples for single id. 
         var filtered_ids = data.samples.filter(sample => sample.id === selection)
 
-        // Get 'sample_values' for horizontal bar chart x axis.    
         var all_values = filtered_ids.map(sample => sample.sample_values)
         var sample_values = all_values[0].slice(0, 10).reverse()
 
-        // Get 'otu_ids' for horizontal bar chart y axis labels.
         var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
         var sliced_otu_ids = all_otu_ids[0].slice(0, 10).reverse()
         var otu_ids = sliced_otu_ids.map(i => 'OTU ' + i)
 
-        // Get 'otu_labels' for horizontal bar chart hovertext. 
         var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
         var otu_labels = all_otu_labels[0].slice(0, 10).reverse()
+
+        // Filter metadata for single id.
+        var filtered_meta = data.metadata.filter(meta => meta.id === parseInt(selection))
+
+        var id = filtered_meta.map(meta => meta.id)
+        var ethnicity = filtered_meta.map(meta => meta.ethnicity)
+        var gender = filtered_meta.map(meta => meta.gender)
+        var age = filtered_meta.map(meta => meta.age)
+        var location = filtered_meta.map(meta => meta.location)
+        var bbtype = filtered_meta.map(meta => meta.bbtype)
+        var wfreq = filtered_meta.map(meta => meta.wfreq)
 
 
         // Create Plotly hoizontal Bar Graph
@@ -46,9 +54,7 @@ function buildPlot(selection) {
 
         var chartData = [trace1]
 
-        // Define the plot layout
-        var layout = {
-            title: "Top 10 OTUs per Individual",
+        var layout1 = {
             xaxis: { title: "OTU Values" },
             margin: {
                 l: 100,
@@ -57,13 +63,52 @@ function buildPlot(selection) {
                 b: 100
             }
         }
+        Plotly.newPlot("bar", chartData, layout1)
 
-        // Plot the chart to a div tag with id "plot"
-        Plotly.newPlot("bar", chartData, layout)
+
+        //Info to fill demographics info
+        const infoFiller = (`<strong> id:</strong> ${id} <br>
+                <br>    
+                <strong> ethnicity:</strong> ${ethnicity} <br>
+                <br>
+                <strong> gender:</strong> ${gender} <br>
+                <br>
+                <strong> age:</strong> ${age} <br> 
+                <br>
+                <strong> location:</strong> ${location} <br>
+                <br>
+                <strong> bbtype:</strong> ${bbtype} <br>
+                <br>
+                <strong> wfreq:</strong> ${wfreq} <br>`
+        )            
+        document.getElementById("sample-metadata").innerHTML = infoFiller
+
     })
 
-
 }
+
+// // Create Plotly Bubble Chart with marker size and color
+// var trace2 = {
+//     x: otu_ids,
+//     y: sample_values,
+//     mode: 'markers',
+//     marker: {
+//       color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+//       opacity: [0.5],
+//       size: [sample_values]
+//     }
+//   };
+
+//   var bubbleData = [trace2];
+
+//   var layout2 = {
+//     // title: 'Marker Size and Color',
+//     showlegend: false,
+//     height: 600,
+//     width: 600
+//   };
+
+//   Plotly.newPlot("bubble", bubbleData, layout2);
 
 function optionChanged() {
     var selection = d3.select("#selDataset").node().value
