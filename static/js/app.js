@@ -1,15 +1,8 @@
-function optionChanged() {
-    var selection = d3.select("#selDataset").node().value
-    buildPlot(selection)
-}
-
-
 function buildPlot(selection) {
     d3.json("../../data/samples.json").then((data) => {
 
-        // Append option tags to dropdown in html with text and value
+        // Append option tags to dropdown in html with 'text' and 'value'.
         var selDataset = d3.select("#selDataset")
-
         var dropdown_ids = data.samples.map(sample => sample.id)
 
         for (var i = 0; i < dropdown_ids.length; i++) {
@@ -18,30 +11,30 @@ function buildPlot(selection) {
             option.property("value", dropdown_ids[i])
         }
 
-        // filter for single id. gragh that and then the drop down will introduce the new 
+        // Give 'selection' an initial value. Then allow event handler information to pass through.
+        if (!selection) {
+            selection = "940"
+        } 
+        else {selction = selection}
+
+        // Filter for single id. Gragh that and then the dropdown will introduce the new 'selection'. 
         var filtered_ids = data.samples.filter(sample => sample.id === selection)
 
-        // Get 'sample_values' for horizontal bar chart x axis    
+        // Get 'sample_values' for horizontal bar chart x axis.    
         var all_values = filtered_ids.map(sample => sample.sample_values)
         var sample_values = all_values[0].slice(0, 10).reverse()
 
-        // Get 'otu_ids' for first ten to use as lables for the y axis
+        // Get 'otu_ids' for horizontal bar chart y axis labels.
         var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
         var sliced_otu_ids = all_otu_ids[0].slice(0, 10).reverse()
         var otu_ids = sliced_otu_ids.map(i => 'OTU ' + i)
 
-        // Get 'otu_labels' for the hovertext 
+        // Get 'otu_labels' for horizontal bar chart hovertext. 
         var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
         var otu_labels = all_otu_labels[0].slice(0, 10).reverse()
 
 
-
-
-        // --------------------------------
-        // Initialize Plot
-        // --------------------------------
-
-
+        // Create Plotly hoizontal Bar Graph
         var trace1 = {
             type: "bar",
             orientation: "h",
@@ -72,31 +65,10 @@ function buildPlot(selection) {
 
 }
 
-// ---------------------------
-// Event Handler???
-// ---------------------------
+function optionChanged() {
+    var selection = d3.select("#selDataset").node().value
 
-// d3.selectAll("body").on("change", optionChanged)
-
-
-
-
-
-
+    buildPlot(selection)
+}
 
 buildPlot()
-
-
-
-
-// function updatePlotly(newData) {
-//     initial_id = "940"
-//     var Bar = document.getElementById("bar")
-//     Plotly.restyle(Bar, "values", [newData])
-// }
-
-
-
-//  ------------------------
-// Event Listener???
-// -------------------------
