@@ -1,3 +1,14 @@
+
+function optionChanged() {
+    var selection = d3.select("#selDataset").node().value
+
+    buildPlot(selection)
+    buildBubblePlot(selection)
+}
+
+
+
+
 function buildPlot(selection) {
     d3.json("../../data/samples.json").then((data) => {
 
@@ -80,40 +91,66 @@ function buildPlot(selection) {
                 <strong> bbtype:</strong> ${bbtype} <br>
                 <br>
                 <strong> wfreq:</strong> ${wfreq} <br>`
-        )            
+        )
         document.getElementById("sample-metadata").innerHTML = infoFiller
 
     })
 
 }
 
-// // Create Plotly Bubble Chart with marker size and color
-// var trace2 = {
-//     x: otu_ids,
-//     y: sample_values,
-//     mode: 'markers',
-//     marker: {
-//       color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
-//       opacity: [0.5],
-//       size: [sample_values]
-//     }
-//   };
 
-//   var bubbleData = [trace2];
 
-//   var layout2 = {
-//     // title: 'Marker Size and Color',
-//     showlegend: false,
-//     height: 600,
-//     width: 600
-//   };
-
-//   Plotly.newPlot("bubble", bubbleData, layout2);
-
-function optionChanged() {
-    var selection = d3.select("#selDataset").node().value
-
-    buildPlot(selection)
-}
 
 buildPlot()
+
+
+// Create Plotly Bubble Chart with marker size and color
+function buildBubblePlot(selection) {
+    d3.json("../../data/samples.json").then((data) => {
+
+        // Give 'selection' an initial value. Then allow event handler information to pass through.
+        if (!selection) {
+            selection = "940"
+        }
+        else { selction = selection }
+
+        // Filter samples for single id. 
+        var filtered_ids = data.samples.filter(sample => sample.id === selection)
+        var all_values = filtered_ids.map(sample => sample.sample_values)
+        var sample_values = all_values[0].reverse()
+
+        var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
+        var otu_ids = all_otu_ids[0].reverse()
+
+        var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
+        var otu_labels = all_otu_labels[0].reverse()
+
+
+        var trace2 = {
+            x: otu_ids,
+            y: sample_values,
+            text: otu_labels,
+            mode: 'markers',
+            marker: {
+                color: otu_ids,
+                colorscale: [[0, 'rgb(73, 71, 191)'], [0.5, 'rgb(71, 191, 99)'], [1, 'rgb(191, 173, 71)']],
+                cmin: 0,
+                cmax: 3500,
+                size: sample_values
+            }
+        }
+
+        var bubbleData = [trace2]
+
+        var layout2 = {
+            title: 'Bubble Chart',
+            showlegend: false,
+            // height: 600,
+            // width: 600
+        }
+
+        Plotly.newPlot("bubble", bubbleData, layout2)
+
+    })
+}
+buildBubblePlot()
