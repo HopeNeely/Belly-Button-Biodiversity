@@ -10,7 +10,7 @@ function optionChanged() {
 
 
 function buildPlot(selection) {
-    d3.json("../../data/samples.json").then((data) => {
+    d3.json("data/samples.json").then((data) => {
 
         // Append option tags to dropdown in html with 'text' and 'value'.
         var selDataset = d3.select("#selDataset")
@@ -106,7 +106,7 @@ buildPlot()
 
 // Create Plotly Bubble Chart with marker size and color
 function buildBubblePlot(selection) {
-    d3.json("../../data/samples.json").then((data) => {
+    d3.json("data/samples.json").then((data) => {
 
         // Give 'selection' an initial value. Then allow event handler information to pass through.
         if (!selection) {
