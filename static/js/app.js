@@ -143,10 +143,9 @@ function buildBubblePlot(selection) {
         var bubbleData = [trace2]
 
         var layout2 = {
-            title: 'Bubble Chart',
             showlegend: false,
-            // height: 600,
-            // width: 600
+            xaxis: { title: "OTU ID" },
+
         }
 
         Plotly.newPlot("bubble", bubbleData, layout2)
