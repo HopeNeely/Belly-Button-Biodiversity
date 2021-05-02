@@ -7,60 +7,58 @@ function optionChanged() {
 }
 
 
-
-
 function buildPlot(selection) {
     d3.json("data/samples.json").then((data) => {
 
         // Append option tags to dropdown in html with 'text' and 'value'.
         var selDataset = d3.select("#selDataset")
-        var dropdown_ids = data.samples.map(sample => sample.id)
+        var dropdownIds = data.samples.map(sample => sample.id)
 
-        for (var i = 0; i < dropdown_ids.length; i++) {
+        for (var i = 0; i < dropdownIds.length; i++) {
             var option = selDataset.append("option")
-            option.text(dropdown_ids[i])
-            option.property("value", dropdown_ids[i])
+            option.text(dropdownIds[i])
+            option.property("value", dropdownIds[i])
         }
 
-        // Give 'selection' an initial value. Then allow event handler information to pass through.
+        // Give 'selection' an initial value. Then, allow event handler information to pass through.
         if (!selection) {
             selection = "940"
         }
         else { selction = selection }
 
-        // Filter samples for single id. 
-        var filtered_ids = data.samples.filter(sample => sample.id === selection)
+        // Filter samples by single id. 
+        var filteredIds = data.samples.filter(sample => sample.id === selection)
 
-        var all_values = filtered_ids.map(sample => sample.sample_values)
-        var sample_values = all_values[0].slice(0, 10).reverse()
+        var allValues = filteredIds.map(sample => sample.sample_values)
+        var sampleValues = allValues[0].slice(0, 10).reverse()
 
-        var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
-        var sliced_otu_ids = all_otu_ids[0].slice(0, 10).reverse()
-        var otu_ids = sliced_otu_ids.map(i => 'OTU ' + i)
+        var allOtuIds = filteredIds.map(sample => sample.otu_ids)
+        var slicedOtuIds = allOtuIds[0].slice(0, 10).reverse()
+        var otuIds = slicedOtuIds.map(i => 'OTU ' + i)
 
-        var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
-        var otu_labels = all_otu_labels[0].slice(0, 10).reverse()
+        var allotuLabels = filteredIds.map(sample => sample.otu_labels)
+        var otuLabels = allotuLabels[0].slice(0, 10).reverse()
 
-        // Filter metadata for single id.
-        var filtered_meta = data.metadata.filter(meta => meta.id === parseInt(selection))
+        // Filter metadata by single id.
+        var filteredMeta = data.metadata.filter(meta => meta.id === parseInt(selection))
 
-        var id = filtered_meta.map(meta => meta.id)
-        var ethnicity = filtered_meta.map(meta => meta.ethnicity)
-        var gender = filtered_meta.map(meta => meta.gender)
-        var age = filtered_meta.map(meta => meta.age)
-        var location = filtered_meta.map(meta => meta.location)
-        var bbtype = filtered_meta.map(meta => meta.bbtype)
-        var wfreq = filtered_meta.map(meta => meta.wfreq)
+        var id = filteredMeta.map(meta => meta.id)
+        var ethnicity = filteredMeta.map(meta => meta.ethnicity)
+        var gender = filteredMeta.map(meta => meta.gender)
+        var age = filteredMeta.map(meta => meta.age)
+        var location = filteredMeta.map(meta => meta.location)
+        var bbtype = filteredMeta.map(meta => meta.bbtype)
+        var wfreq = filteredMeta.map(meta => meta.wfreq)
 
 
         // Create Plotly hoizontal Bar Graph
         var trace1 = {
             type: "bar",
             orientation: "h",
-            x: sample_values,
-            y: otu_ids,
+            x: sampleValues,
+            y: otuIds,
             hovertemplate: '<b>%{text}</b>',
-            text: otu_labels
+            text: otuLabels
         }
 
         var chartData = [trace1]
@@ -98,45 +96,42 @@ function buildPlot(selection) {
 
 }
 
-
-
-
 buildPlot()
 
 
-// Create Plotly Bubble Chart with marker size and color
+// Create Plotly Bubble Chart with marker size and color.
 function buildBubblePlot(selection) {
     d3.json("data/samples.json").then((data) => {
 
-        // Give 'selection' an initial value. Then allow event handler information to pass through.
+        // Give 'selection' an initial value. Then, allow event handler information to pass through.
         if (!selection) {
             selection = "940"
         }
         else { selction = selection }
 
-        // Filter samples for single id. 
-        var filtered_ids = data.samples.filter(sample => sample.id === selection)
-        var all_values = filtered_ids.map(sample => sample.sample_values)
-        var sample_values = all_values[0].reverse()
+        // Filter samples by single id. 
+        var filteredIds = data.samples.filter(sample => sample.id === selection)
+        var allValues = filteredIds.map(sample => sample.sample_values)
+        var sampleValues = allValues[0].reverse()
 
-        var all_otu_ids = filtered_ids.map(sample => sample.otu_ids)
-        var otu_ids = all_otu_ids[0].reverse()
+        var allotuIds = filteredIds.map(sample => sample.otu_ids)
+        var otuIds = allotuIds[0].reverse()
 
-        var all_otu_labels = filtered_ids.map(sample => sample.otu_labels)
-        var otu_labels = all_otu_labels[0].reverse()
+        var allotuLabels = filteredIds.map(sample => sample.otu_labels)
+        var otuLabels = allotuLabels[0].reverse()
 
 
         var trace2 = {
-            x: otu_ids,
-            y: sample_values,
-            text: otu_labels,
+            x: otuIds,
+            y: sampleValues,
+            text: otuLabels,
             mode: 'markers',
             marker: {
-                color: otu_ids,
+                color: otuIds,
                 colorscale: [[0, 'rgb(73, 71, 191)'], [0.5, 'rgb(71, 191, 99)'], [1, 'rgb(191, 173, 71)']],
                 cmin: 0,
                 cmax: 3500,
-                size: sample_values
+                size: sampleValues
             }
         }
 
