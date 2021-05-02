@@ -8,7 +8,7 @@ The goal of this challenge was to build an interactive dashboard to explore the 
 - Appended the dropdown option tags with the sample id information into the index.html file. 
 - Used an event handler to define the user's dropdown selection from the index.html file and passed that selection value into the graphing functions.
 
-Check out this interactive dashboard at [hopeneely.github.io/Plotly-challenge](hopeneely.github.io/Plotly-challenge). The dropdown allows the user to select an individual test subject ID number. That selection updates the demographic information, the horizontal bar chart, and the bubble chart to show information for that individual test subject. 
+Check out this interactive dashboard at [https://hopeneely.github.io/Plotly-challenge/](https://hopeneely.github.io/Plotly-challenge/). The dropdown allows the user to select an individual test subject ID number. That selection updates the demographic information, the horizontal bar chart, and the bubble chart to show information for that individual test subject. 
 
 ![Belly Button Biodiversity Dashboard Heading](Images/deployed_head.png)
 ![Belly Button Biodiversity Dashboard Initial Sample ID](Images/deployed_940.png)
