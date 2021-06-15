@@ -25,7 +25,7 @@ The JavaScript and HTML work to gether to create interactive exploration for the
 ![Belly Button Biodiversity Dashboard Dropdown](Images/Dropdown2.png)
 
 
-Check out this interactive dashboard for youself at [https://hopeneely.github.io/Plotly-challenge/](https://hopeneely.github.io/Plotly-challenge/). The dropdown allows the user to select an individual test subject ID number. That selection updates the demographic information, the horizontal bar chart, and the bubble chart to show information for that individual test subject. 
+Check out this interactive dashboard for youself at [https://hopeneely.github.io/Belly-Button-Biodiversity/](https://hopeneely.github.io/Belly-Button-Biodiversity/). The dropdown allows the user to select an individual test subject ID number. That selection updates the demographic information, the horizontal bar chart, and the bubble chart to show information for that individual test subject. 
 
 ## Contact Info: 
 Email: [hope.neely@gmail.com](hope.neely@gmail.com)<br>
